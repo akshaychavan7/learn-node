@@ -8,16 +8,16 @@ fs.readFile('./data/test.txt', function(err, data) {
   }
   if (err) console.log('Error');
   else console.log(data);
-
+  
   const timeoutScheduled = Date.now();
   setTimeout(() => {
     const delay = Date.now() - timeoutScheduled;
-
+    
     console.log(`${delay}ms have passed since I was scheduled`);
   }, 5);
-
-  setImmediate(() => {
-    console.log('I was scheduled to run immediately');
-  });
+  
 });
 
+setImmediate(() => { // add this to check phase
+  console.log('I was scheduled to run immediately');
+});

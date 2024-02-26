@@ -1,2 +1,11 @@
 - Explain the order of execution in terms of the event loop for eventloop/immediate.js.
+The order of exeuction will be as follows:
+<Buffer 54 68 65 20 70 6f 6c 6c 20 70 68 61 73 65 20 69 73 20 61 63 74 75 61 6c 6c 79 20 61 20 62 6c 6f 63 6b 69 6e 67 20 70 68 61 73 65 2e 20 49 66 20 74 68 ... 861 more bytes>
+I was scheduled to run immediately
+2ms have passed since I was scheduled
+
+Firsly, the script is executed on the main thread. The file read operation is an IO operation so it gets executed in the polling phase and the callback for it is added into pending callbacks phase.
+We execute this callback function which in turn has two function calls, one is setTimeout and second is setImmediate. setTimeout() function is added in timer phase and setImmediate is added to check phase. Since the priority of check phase is higher than timer, it gets executed first.
+
 - Will the order of execution change if timeout is changed to 0? Why or why not?
+No, because the setImmediate function is ran immediately when the IO operation finishes.

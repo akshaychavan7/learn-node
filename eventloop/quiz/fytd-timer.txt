@@ -1,1 +1,13 @@
 - In eventloop/timer.js, what will be the order of execution? Briefly explain the order of execution w.r.t the event loop phases.
+Answer: 
+The order of execution will be as follows:
+foo
+baz
+foo
+baz
+2 : bar
+1 : bar
+
+The whole scripts runs synchronously on main thread. Firstly, we make a call to foo() function with an argument of 2. Subsequently, we print the value as 'foo' and call an asynchronous function setTimeout which in turn calls bar(). Since this function is asynchronous it gets added to event loop causing it to be printed after the synchronous execution gets completed. 
+Thus, after this asynchronous call, we call baz() which prints "baz" on console and carries on further execution. Same order of execution happens for second call to 'foo'.
+When all the synchronous tasks are completed, the asynchronous functions complete their execution and print bar on the console.
